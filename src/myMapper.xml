@@ -1,9 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Loginmapper">
-	<select id="selectIdPwd" parameterType="pjh.UserIdPwd" resultType="pjh.ManagerInfo">
+<mapper namespace="loginmapper">
+	<select id="selectOutputs" resultType="senior.Outputs">
+		select * from outputs
+	</select>
+	<insert id="insertCustomer" parameterType="senior.Customer_info">
+		insert into customer_info values(#{cust_id},#{cust_name},
+			#{cust_addr},#{cust_reg_date})
+	</insert>
+	<select id="selectCustomer" parameterType="String"
+		resultType="senior.Customer_info">
+		select * from customer_info where cust_id=#{id}
+	</select>
+	<update id="updateEmpl" parameterType="senior.Empl_info">
+		update empl_info set emp_name = #{emp_name},
+		emp_dept = #{emp_dept}, emp_gender = #{emp_gender},
+		emp_addr = #{emp_addr}, emp_hire = #{emp_hire}
+		where emp_id = #{emp_id}
+	</update>
+	<delete id="deleteEmpl" parameterType="String">
+		delete from empl_info where emp_id = #{emp_id}
+	</delete>
+	<insert id="insertEmpl" parameterType="senior.Empl_info">
+		insert into empl_info values(#{emp_id},#{emp_name},
+			#{emp_dept},#{emp_gender},#{emp_addr},#{emp_hire})
+	</insert>
+	<select id="selectEmpl" parameterType="String"
+		resultType="senior.Empl_info">
+		select * from empl_info where emp_id = #{id}
+	</select>
+	<update id="updateItemInfo" parameterType="senior.ItemInfo">
+		update item_info set name=#{name}, price=#{price},
+			info=#{info}, origin=#{origin} 
+		where code = #{code}
+	</update>
+	<delete id="deleteItemCode" parameterType="String">
+		delete from item_info where code = #{code}
+	</delete>
+	<select id="selectItemCode" parameterType="String"
+		resultType="senior.ItemInfo">
+		select * from item_info where code = #{code}
+	</select>
+	<insert id="insertItemInfo" parameterType="senior.ItemInfo">
+		insert into item_info values(#{code},#{name},#{price},
+			#{info},#{origin},#{image})
+	</insert>
+	<select id="selectIdPwd" parameterType="senior.UserIdPwd"
+		resultType="senior.ManagerInfo">
 		select * from manager_info
 		where manager_id = #{id} and manager_pwd = #{pwd}
 	</select>
 </mapper>
+
+
+
+
+
+
+
+

@@ -1,8 +1,8 @@
 package senior;
 
+import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.CardLayout;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -15,6 +15,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+class FruitsShoppingEnd extends WindowAdapter {
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		System.exit(0);
+	}
+	
+}
 class FruitsShoppingExit implements WindowListener {
 
 	@Override
@@ -75,9 +83,9 @@ class FruitImage extends Panel{
 	
 }
 class MyButtonListener implements ActionListener{
-	FruitsShopping fs;
-	MyButtonListener(FruitsShopping fs){
-		this.fs = fs;
+	FruitsShopping fs; TotalSystem ts;
+	MyButtonListener(FruitsShopping fs,TotalSystem ts){
+		this.fs = fs; this.ts = ts;
 	}
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -89,10 +97,12 @@ class MyButtonListener implements ActionListener{
 			fs.card.next(fs.fruits);
 		}else if(obj == fs.last) {
 			fs.card.last(fs.fruits);
+		}else if(obj == fs.logout) {//로그 아웃을 누른 경우
+			ts.card.show(ts.totalPanel,"login");
 		}
 	}
 }
-public class FruitsShopping extends Frame { 
+public class FruitsShopping extends Panel { 
 //	implements ActionListener{
 //	@Override
 //	public void actionPerformed(ActionEvent arg0) {
@@ -107,7 +117,7 @@ public class FruitsShopping extends Frame {
 //			card.last(fruits);//fruits에 있는 패널 중 마지막으로 이동
 //		}
 //	}
-	Button first,prev,next,last;
+	Button first,prev,next,last,logout;
 	Panel buttons;//버튼을 담을 패널
 	Panel fruits;//과일 소개를 담을 패널(카드레이아웃을 사용)
 	Panel[] items_intro, item, desc;
@@ -115,6 +125,7 @@ public class FruitsShopping extends Frame {
 	//item:과일 이미지용 패널, items_intro의 왼쪽에 배치된다.
 	//desc:과일 소개글용 패널, items_intro의 오른쪽에 배치된다.
 	CardLayout card;//fruits가 사용할 배치관리자
+	TotalSystem ts;
 	void init() {
 		card = new CardLayout();//배치관리자 생성
 		fruits = new Panel(card);//패널을 생성하면서 배치관리자 설정
@@ -175,27 +186,32 @@ public class FruitsShopping extends Frame {
 		fruits.add(items_intro[5],"strawberry");
 		first=new Button("처음으로");prev=new Button("이전으로");
 		next=new Button("다음으로");last=new Button("맨뒤로");
-		first.addActionListener(new MyButtonListener(this));
-		prev.addActionListener(new MyButtonListener(this));
-		next.addActionListener(new MyButtonListener(this));
-		last.addActionListener(new MyButtonListener(this));
+		logout = new Button("로그아웃");
+		logout.addActionListener(new MyButtonListener(this,ts));
+		first.addActionListener(new MyButtonListener(this,ts));
+		prev.addActionListener(new MyButtonListener(this,ts));
+		next.addActionListener(new MyButtonListener(this,ts));
+		last.addActionListener(new MyButtonListener(this,ts));
 		buttons = new Panel();//버튼을 담을 패널 생성
 		buttons.add(first);buttons.add(prev);
-		buttons.add(next); buttons.add(last);
+		buttons.add(next); buttons.add(last);buttons.add(logout);
 	}
 	
-	public FruitsShopping(String str) {
-		super(str);
+	public FruitsShopping(TotalSystem ts) {
+//		super(str);
+		this.ts = ts;
 		init();
+		this.setLayout(new BorderLayout());
 		this.add("Center",fruits);
 		this.add("South",buttons);
-		this.setSize(800, 500);
-		this.setLocation(200, 200);
-		this.setVisible(true);
-		this.addWindowListener(new FruitsShoppingExit());
+//		this.setSize(800, 500);
+//		this.setLocation(200, 200);
+//		this.setVisible(true);
+//		this.addWindowListener(new FruitsShoppingExit());
+//		this.addWindowListener(new FruitsShoppingEnd());
 	}
 	public static void main(String[] args) {
-		new FruitsShopping("과일 소개 ver1.0");
+//		new FruitsShopping("과일 소개 ver1.0");
 	}
 }
 
