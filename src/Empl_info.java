@@ -1,14 +1,12 @@
 package senior;
 
 public class Empl_info {
-	
 	private String emp_id;
 	private String emp_name;
 	private String emp_dept;
 	private String emp_gender;
 	private String emp_addr;
 	private String emp_hire;
-	
 	public String getEmp_id() {
 		return emp_id;
 	}
@@ -45,7 +43,4 @@ public class Empl_info {
 	public void setEmp_hire(String emp_hire) {
 		this.emp_hire = emp_hire;
 	}
-	
-	
-
 }
